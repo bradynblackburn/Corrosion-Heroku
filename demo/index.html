@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Corrosion Proxy - Upgraded by Bradyn B.</title>
+        <style>
+                * {
+                        margin: 0;
+                        padding: 0;
+                        box-sizing: border-box;
+                }
+
+                body {
+                        min-height: 100vh;
+                        background: linear-gradient(135deg, #0a0e27 0%, #1a1147 50%, #2d1b69 100%);
+                        color: #ffffff;
+                        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+                        overflow-x: hidden;
+                        position: relative;
+                }
+
+                .stars {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        pointer-events: none;
+                        z-index: 0;
+                }
+
+                .star {
+                        position: absolute;
+                        background: white;
+                        border-radius: 50%;
+                        animation: twinkle 3s infinite;
+                }
+
+                @keyframes twinkle {
+                        0%, 100% { opacity: 0.3; }
+                        50% { opacity: 1; }
+                }
+
+                @keyframes float {
+                        0%, 100% { transform: translateY(0px); }
+                        50% { transform: translateY(-20px); }
+                }
+
+                .container {
+                        position: relative;
+                        z-index: 1;
+                        max-width: 1200px;
+                        margin: 0 auto;
+                        padding: 40px 20px;
+                }
+
+                header {
+                        text-align: center;
+                        margin-bottom: 60px;
+                        animation: float 6s ease-in-out infinite;
+                }
+
+                .logo {
+                        font-size: clamp(2.5rem, 6vw, 4rem);
+                        font-weight: 900;
+                        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        background-clip: text;
+                        margin-bottom: 15px;
+                        letter-spacing: -1px;
+                        text-shadow: 0 0 80px rgba(102, 126, 234, 0.5);
+                }
+
+                .tagline {
+                        font-size: clamp(1rem, 2vw, 1.3rem);
+                        color: #b8c5ff;
+                        font-weight: 300;
+                        letter-spacing: 2px;
+                }
+
+                .search-section {
+                        background: rgba(255, 255, 255, 0.03);
+                        backdrop-filter: blur(20px);
+                        border: 1px solid rgba(255, 255, 255, 0.1);
+                        border-radius: 30px;
+                        padding: 50px;
+                        margin-bottom: 50px;
+                        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                }
+
+                .search-form {
+                        display: flex;
+                        gap: 15px;
+                        margin-bottom: 30px;
+                        flex-wrap: wrap;
+                }
+
+                #url {
+                        flex: 1;
+                        min-width: 300px;
+                        padding: 20px 30px;
+                        font-size: 18px;
+                        background: rgba(255, 255, 255, 0.08);
+                        border: 2px solid rgba(102, 126, 234, 0.3);
+                        border-radius: 20px;
+                        color: white;
+                        outline: none;
+                        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                        font-weight: 500;
+                }
+
+                #url::placeholder {
+                        color: rgba(255, 255, 255, 0.4);
+                }
+
+                #url:focus {
+                        background: rgba(255, 255, 255, 0.12);
+                        border-color: #667eea;
+                        box-shadow: 0 0 40px rgba(102, 126, 234, 0.4), 0 10px 30px rgba(0, 0, 0, 0.2);
+                        transform: translateY(-2px);
+                }
+
+                #go {
+                        padding: 20px 50px;
+                        font-size: 18px;
+                        font-weight: 700;
+                        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                        border: none;
+                        border-radius: 20px;
+                        color: white;
+                        cursor: pointer;
+                        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+                        text-transform: uppercase;
+                        letter-spacing: 1px;
+                }
+
+                #go:hover {
+                        transform: translateY(-3px);
+                        box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+                        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+                }
+
+                #go:active {
+                        transform: translateY(-1px);
+                }
+
+                .quick-links {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                        gap: 15px;
+                        margin-top: 30px;
+                }
+
+                .quick-link {
+                        padding: 15px;
+                        background: rgba(255, 255, 255, 0.05);
+                        border: 1px solid rgba(255, 255, 255, 0.1);
+                        border-radius: 15px;
+                        text-align: center;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        font-weight: 600;
+                        color: #b8c5ff;
+                }
+
+                .quick-link:hover {
+                        background: rgba(102, 126, 234, 0.2);
+                        border-color: rgba(102, 126, 234, 0.5);
+                        transform: translateY(-3px);
+                        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+                        color: white;
+                }
+
+                .features {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                        gap: 30px;
+                        margin-bottom: 50px;
+                }
+
+                .feature-card {
+                        background: rgba(255, 255, 255, 0.03);
+                        backdrop-filter: blur(20px);
+                        border: 1px solid rgba(255, 255, 255, 0.1);
+                        border-radius: 25px;
+                        padding: 35px;
+                        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                }
+
+                .feature-card:hover {
+                        background: rgba(255, 255, 255, 0.06);
+                        border-color: rgba(102, 126, 234, 0.5);
+                        transform: translateY(-10px);
+                        box-shadow: 0 20px 50px rgba(102, 126, 234, 0.3);
+                }
+
+                .feature-icon {
+                        font-size: 3rem;
+                        margin-bottom: 20px;
+                }
+
+                .feature-title {
+                        font-size: 1.5rem;
+                        font-weight: 700;
+                        margin-bottom: 15px;
+                        background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        background-clip: text;
+                }
+
+                .feature-description {
+                        color: #b8c5ff;
+                        line-height: 1.6;
+                        font-weight: 400;
+                }
+
+                footer {
+                        text-align: center;
+                        padding: 40px 20px;
+                        margin-top: 60px;
+                }
+
+                .github-link {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 10px;
+                        padding: 15px 35px;
+                        background: rgba(255, 255, 255, 0.05);
+                        border: 2px solid rgba(255, 255, 255, 0.2);
+                        border-radius: 50px;
+                        color: white;
+                        text-decoration: none;
+                        font-weight: 600;
+                        transition: all 0.3s ease;
+                        font-size: 1.1rem;
+                }
+
+                .github-link:hover {
+                        background: rgba(102, 126, 234, 0.3);
+                        border-color: #667eea;
+                        transform: scale(1.05);
+                        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+                }
+
+                .credits {
+                        margin-bottom: 30px;
+                        padding: 25px;
+                        background: rgba(255, 255, 255, 0.03);
+                        border: 1px solid rgba(255, 255, 255, 0.1);
+                        border-radius: 20px;
+                        backdrop-filter: blur(20px);
+                }
+
+                .credits-item {
+                        color: #b8c5ff;
+                        font-size: 1rem;
+                        margin: 10px 0;
+                        line-height: 1.6;
+                }
+
+                .credits-item strong {
+                        color: #667eea;
+                        font-weight: 600;
+                }
+
+                .stats {
+                        display: flex;
+                        justify-content: center;
+                        gap: 50px;
+                        margin-top: 30px;
+                        flex-wrap: wrap;
+                }
+
+                .stat {
+                        text-align: center;
+                }
+
+                .stat-number {
+                        font-size: 2.5rem;
+                        font-weight: 900;
+                        background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        background-clip: text;
+                }
+
+                .stat-label {
+                        color: #b8c5ff;
+                        margin-top: 5px;
+                        font-size: 0.9rem;
+                        text-transform: uppercase;
+                        letter-spacing: 1px;
+                }
+
+                @media (max-width: 768px) {
+                        .search-section {
+                                padding: 30px 20px;
+                        }
+
+                        .search-form {
+                                flex-direction: column;
+                        }
+
+                        #url, #go {
+                                width: 100%;
+                                min-width: unset;
+                        }
+
+                        .features {
+                                grid-template-columns: 1fr;
+                        }
+
+                        .stats {
+                                gap: 30px;
+                        }
+                }
+
+                .pulse {
+                        animation: pulse 2s infinite;
+                }
+
+                @keyframes pulse {
+                        0% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7); }
+                        70% { box-shadow: 0 0 0 20px rgba(102, 126, 234, 0); }
+                        100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0); }
+                }
+        </style>
+</head>
+<body>
+        <div class="stars" id="stars"></div>
+        
+        <div class="container">
+                <header>
+                        <h1 class="logo">Corrosion-Heroku</h1>
+                        <p class="tagline">Upgraded by Bradyn Blackburn</p>
+                </header>
+
+                <section class="search-section">
+                        <form class="search-form" id="proxyForm">
+                                <input type="text" id="url" placeholder="paste any url here..." autocomplete="off" autofocus>
+                                <button type="submit" id="go" class="pulse">Go</button>
+                        </form>
+                        
+                        <div class="quick-links">
+                                <div class="quick-link" data-url="Soon">Soon</div>
+                                <div class="quick-link" data-url="Soon">Soon</div>
+                                <div class="quick-link" data-url="Soon">Soon</div>
+                                <div class="quick-link" data-url="Soon">Soon</div>
+                                <div class="quick-link" data-url="Soon">Soon</div>
+                                <div class="quick-link" data-url="Soon">Soon</div>
+                        </div>
+                </section>
+
+                <div class="features">
+                        <div class="feature-card">
+                                <div class="feature-icon">🔒</div>
+                                <h3 class="feature-title">Actually Private</h3>
+                                <p class="feature-description">Your traffic gets routed through the proxy so the sites you visit can't see your real IP or location.</p>
+                        </div>
+                        <div class="feature-card">
+                                <div class="feature-icon">⚡</div>
+                                <h3 class="feature-title">Pretty Fast</h3>
+                                <p class="feature-description">Built on top of Corrosion which is way faster than most other web proxies out there.</p>
+                        </div>
+                        <div class="feature-card">
+                                <div class="feature-icon">🌍</div>
+                                <h3 class="feature-title">Bypass Blocks</h3>
+                                <p class="feature-description">Get around network filters and access blocked websites whether you're at school, work, or anywhere else.</p>
+                        </div>
+                </div>
+
+                <div class="stats">
+                        <div class="stat">
+                                <div class="stat-number">Fast</div>
+                                <div class="stat-label">Speed</div>
+                        </div>
+                        <div class="stat">
+                                <div class="stat-number">Free</div>
+                                <div class="stat-label">Always</div>
+                        </div>
+                        <div class="stat">
+                                <div class="stat-number">Easy</div>
+                                <div class="stat-label">To Use</div>
+                        </div>
+                </div>
+
+                <footer>
+                        <div class="credits">
+                                <div class="credits-item"><strong>Proxy Made By:</strong> {{PROXY_CREATOR}}</div>
+                                <div class="credits-item"><strong>Proxy Upgraded By:</strong> {{PROXY_UPGRADER}}</div>
+                        </div>
+                        <a href="https://github.com/bradynblackburn/Corrosion-Heroku" class="github-link" target="_blank">
+                                <span>⭐</span>
+                                <span>Check it out on GitHub</span>
+                        </a>
+                </footer>
+        </div>
+
+        <script>
+                function createStars() {
+                        const starsContainer = document.getElementById('stars');
+                        for (let i = 0; i < 100; i++) {
+                                const star = document.createElement('div');
+                                star.className = 'star';
+                                star.style.width = Math.random() * 3 + 'px';
+                                star.style.height = star.style.width;
+                                star.style.left = Math.random() * 100 + '%';
+                                star.style.top = Math.random() * 100 + '%';
+                                star.style.animationDelay = Math.random() * 3 + 's';
+                                starsContainer.appendChild(star);
+                        }
+                }
+                createStars();
+
+                function xor(str) {
+                        return encodeURIComponent(str.toString().split('').map((char, ind) => ind % 2 ? String.fromCharCode(char.charCodeAt() ^ 2) : char).join(''));
+                }
+
+                function go(url) {
+                        if (!url) return;
+                        const processedUrl = /^(http:\/\/|https:\/\/)/i.test(url) ? url : "https://" + url;
+                        window.location.href = "c/" + xor(processedUrl);
+                }
+
+                const urlInput = document.getElementById("url");
+                const goButton = document.getElementById("go");
+                const proxyForm = document.getElementById("proxyForm");
+
+                proxyForm.addEventListener("submit", function(e) {
+                        e.preventDefault();
+                        if (urlInput.value) go(urlInput.value);
+                });
+
+                document.querySelectorAll('.quick-link').forEach(link => {
+                        link.addEventListener('click', function() {
+                                const url = this.getAttribute('data-url');
+                                urlInput.value = url;
+                                go(url);
+                        });
+                });
+
+                urlInput.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter' && urlInput.value) {
+                                e.preventDefault();
+                                go(urlInput.value);
+                        }
+                });
+        </script>
+</body>
+</html>
